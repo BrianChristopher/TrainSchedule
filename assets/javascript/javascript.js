@@ -29,9 +29,13 @@ $("#submit").click(function () {
     var holdFirstTrainTime = $("#firstTrainTime").val().trim();
     var holdTrainFrequency = $("#trainFrequency").val().trim();
 
+    //Convert incoming time (holdFirstTrainTime) to unix
+    var convertedTime = moment(holdFirstTrainTime, "HH:mm").format("X");
+    console.log(convertedTime);
+
     trainName = holdTrainName;
     trainDestination = holdTrainDestination;
-    firstTrainTime = holdFirstTrainTime;
+    firstTrainTime = convertedTime;
     trainFrequency = holdTrainFrequency;
 
     database.ref().push({
@@ -62,7 +66,7 @@ database.ref().on("child_added", function (dataFromDatabase) {
     var tdtrainName = $("<td>").text(ttrainName);
     var tdtrainDestination = $("<td>").text(ttrainDestination);
     var tdtrainFrequency = $("<td>").text(ttrainFrequency);
-    var tdnextArrival = $("<td>").text("TBD");
+    var tdnextArrival = $("<td>").text("TBD but show: " + ttirstTrainTime);
     var tdminutesAway = $("<td>").text("TBD");
 
     tr.append(tdtrainName, tdtrainDestination, tdtrainFrequency, tdnextArrival, tdminutesAway);
