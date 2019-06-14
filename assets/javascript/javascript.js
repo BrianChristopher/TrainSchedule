@@ -59,15 +59,39 @@ database.ref().on("child_added", function (dataFromDatabase) {
 
     var ttrainName = dataFromDatabase.val().dbtrainName;
     var ttrainDestination = dataFromDatabase.val().dbtrainDestination;
-    var ttirstTrainTime = dataFromDatabase.val().dbfirstTrainTime;
+    var tfirstTrainTime = dataFromDatabase.val().dbfirstTrainTime;
     var ttrainFrequency = dataFromDatabase.val().dbtrainFrequency;
+
+    var nextTrainTimeUnix = 0;
+    var displayTime = "";
+    var displayMinutesAway = 0;
+
+    //IF First Train Time has not yet occurred, display First Train Time as NEXT TRAIN
+    //ELSE compute moments until next train.
+    var now = moment();
+    console.log(now);
+    //Convert incoming time (holdFirstTrainTime) to unix
+    var convertedCurrentTime = moment(now, "HH:mm").format("X");
+    console.log(convertedCurrentTime < tfirstTrainTime);
+    if (convertedCurrentTime < tfirstTrainTime){
+        nextTrainTimeUnix = tfirstTrainTime;
+        var displayTime = moment(nextTrainTimeUnix, "X").format("hh:mm A")
+        var minutesAway = (tfirstTrainTime - convertedCurrentTime)/60;
+        displayMinutesAway = Math.floor(minutesAway); 
+    }
+
+    else {
+        nextTrainTimeUnix ="First Train already arrived"
+        var displayTime = nextTrainTimeUnix;
+    }
+
 
     var tr = $("<tr>");
     var tdtrainName = $("<td>").text(ttrainName);
     var tdtrainDestination = $("<td>").text(ttrainDestination);
     var tdtrainFrequency = $("<td>").text(ttrainFrequency);
-    var tdnextArrival = $("<td>").text("TBD but show: " + ttirstTrainTime);
-    var tdminutesAway = $("<td>").text("TBD");
+    var tdnextArrival = $("<td>").text(displayTime);
+    var tdminutesAway = $("<td>").text(displayMinutesAway);
 
     tr.append(tdtrainName, tdtrainDestination, tdtrainFrequency, tdnextArrival, tdminutesAway);
 
