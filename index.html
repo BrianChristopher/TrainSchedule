@@ -6,15 +6,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Train Schedule</title>
+
+    <!-- THIS IS JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- THIS IS BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- THIS IS MY CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    </link>
 </head>
 
 <body>
+    <div class="jumbotron jumbotron-fluid bg-dark">
+        <div class="container">
+            <h1 class="display-4 text-light">Train Schedule</h1>
+            <p class="lead text-light">When you are too fancy to take the bus.</p>
+            <!-- <img src="assets/images/black-and-white-carriage-clouds-258455.jpg" class="img-fluid" alt="Responsive image"> -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                Current Time Schedule
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Train Name</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Next Arrival</th>
+                            <th scope="col">Minutes Away</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test 1</td>
+                            <td>Test 2</td>
+                            <td>Test 3</td>
+                            <td>Test 4</td>
+                            <td>Test 5</td>
+                        </tr>
+
+                        <tr>
+                            <td>Test A</td>
+                            <td>Test B</td>
+                            <td>Test C</td>
+                            <td>Test D</td>
+                            <td>Test E</td>
+                        </tr>
+                        <!-- <span id="buildTableRow"></span> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
 
 
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
-    <script type="text/javascript" src="assets/javascript/javascript.js"></script>
+        <!-- THIS CARD HOLDS THE INPUT FORM -->
+        <div class="card mt-3">
+            <div class="card-header">
+                Add Train
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="trainName">Train Name</label>
+                        <input type="text" class="form-control" id="trainName" placeholder="Orange Blossom Special">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="trainDestination">Destination</label>
+                        <input type="text" class="form-control" id="trainDestination" placeholder="Miami, FL">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstTrainTime">First Train Time (HH:MM military time)</label>
+                        <input type="time" class="form-control" id="firstTrainTime" placeholder="09:00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="trainFrequency">Frequency (minutes)</label>
+                        <input type="number" class="form-control" id="trainFrequency" placeholder="60">
+                    </div>
+
+                    <input type="submit" id="submit" class="btn btn-primary"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Modal
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModal">You have successfully added a train!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Woot woot!</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- FIREBASE -->
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+        <!-- MY JAVASCRIPT -->
+        <script type="text/javascript" src="assets/javascript/javascript.js"></script>
 </body>
 
 </html>

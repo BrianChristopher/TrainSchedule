@@ -17,17 +17,59 @@ var database = firebase.database();
 
 
 //Initialize Global Variables
-var trainName = "Orange Blossom Special";
-var trainDestination = "Miami, FL";
-var firstTrainTime = 14;
-var trainFrequency = 54;
+var trainName = "";
+var trainDestination = "";
+var firstTrainTime = 0;
+var trainFrequency = 0;
 
-database.ref().push({
-    dbtrainName: trainName,
-    dbtrainDestination: trainDestination,
-    dbfirstTrainTime: firstTrainTime,
-    dbtrainFrequency: trainFrequency
+$("#submit").click(function () {
+    event.preventDefault(event);
+    var holdTrainName = $("#trainName").val().trim();
+    var holdTrainDestination = $("#trainDestination").val().trim();
+    var holdFirstTrainTime = $("#firstTrainTime").val().trim();
+    var holdTrainFrequency = $("#trainFrequency").val().trim();
+
+    trainName = holdTrainName;
+    trainDestination = holdTrainDestination;
+    firstTrainTime = holdFirstTrainTime;
+    trainFrequency = holdTrainFrequency;
+
+    database.ref().push({
+        dbtrainName: trainName,
+        dbtrainDestination: trainDestination,
+        dbfirstTrainTime: firstTrainTime,
+        dbtrainFrequency: trainFrequency
+    });
+    
+
+    $("#trainName").val("");
+    $("#trainDestination").val("");
+    $("#firstTrainTime").val("");
+    $("#trainFrequency").val("");
+
 });
+
+
+database.ref().on("child_added", function (dataFromDatabase) {
+    console.log(dataFromDatabase.val());
+
+    var ttrainName = dataFromDatabase.val().dbtrainName;
+    var ttrainDestination = dataFromDatabase.val().dbtrainDestination;
+    var ttirstTrainTime = dataFromDatabase.val().dbfirstTrainTime;
+    var ttrainFrequency = dataFromDatabase.val().dbtrainFrequency;
+
+    var tr = $("<tr>");
+    var tdtrainName = $("<td>").text(ttrainName);
+    var tdtrainDestination = $("<td>").text(ttrainDestination);
+    var tdtrainFrequency = $("<td>").text(ttrainFrequency);
+    var tdnextArrival = $("<td>").text("TBD");
+    var tdminutesAway = $("<td>").text("TBD");
+
+    tr.append(tdtrainName, tdtrainDestination, tdtrainFrequency, tdnextArrival, tdminutesAway);
+
+    $("tbody").append(tr);
+
+})
 
 
 
