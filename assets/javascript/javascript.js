@@ -30,12 +30,12 @@ $("#submit").click(function () {
     var holdTrainFrequency = $("#trainFrequency").val().trim();
 
     //Convert incoming time (holdFirstTrainTime) to unix
-    var convertedTime = moment(holdFirstTrainTime, "HH:mm").format("X");
-    console.log(convertedTime);
+    //var convertedTime = moment(holdFirstTrainTime, "HH:mm").format("X");
+    //console.log(convertedTime);
 
     trainName = holdTrainName;
     trainDestination = holdTrainDestination;
-    firstTrainTime = convertedTime;
+    firstTrainTime = holdFirstTrainTime;
     trainFrequency = holdTrainFrequency;
 
     database.ref().push({
@@ -44,7 +44,7 @@ $("#submit").click(function () {
         dbfirstTrainTime: firstTrainTime,
         dbtrainFrequency: trainFrequency
     });
-    
+
 
     $("#trainName").val("");
     $("#trainDestination").val("");
@@ -62,27 +62,41 @@ database.ref().on("child_added", function (dataFromDatabase) {
     var tfirstTrainTime = dataFromDatabase.val().dbfirstTrainTime;
     var ttrainFrequency = dataFromDatabase.val().dbtrainFrequency;
 
-    var nextTrainTimeUnix = 0;
+    var nextTrainTime = "";
     var displayTime = "";
-    var displayMinutesAway = 0;
+    var displayMinutesAway = "";
 
     //IF First Train Time has not yet occurred, display First Train Time as NEXT TRAIN
     //ELSE compute moments until next train.
     var now = moment();
     console.log(now);
-    //Convert incoming time (holdFirstTrainTime) to unix
+    //Convert current time and first time to unix
     var convertedCurrentTime = moment(now, "HH:mm").format("X");
-    console.log(convertedCurrentTime < tfirstTrainTime);
-    if (convertedCurrentTime < tfirstTrainTime){
-        nextTrainTimeUnix = tfirstTrainTime;
-        var displayTime = moment(nextTrainTimeUnix, "X").format("hh:mm A")
-        var minutesAway = (tfirstTrainTime - convertedCurrentTime)/60;
-        displayMinutesAway = Math.floor(minutesAway); 
+    var convertedFirstTime = moment(tfirstTrainTime, "HH:mm").format("X");
+
+    console.log(convertedCurrentTime < convertedFirstTime);
+    if (convertedCurrentTime < convertedFirstTime) {
+        displayTime = moment(tfirstTrainTime, "HH:mm").format("hh:mm A");
+        
+        var minutesAway = (convertedFirstTime - convertedCurrentTime) / 60;
+        displayMinutesAway = Math.floor(minutesAway);
     }
 
     else {
-        nextTrainTimeUnix ="First Train already arrived"
-        var displayTime = nextTrainTimeUnix;
+        //Difference between first time and current time
+        //var convertedFirstTrainTime = moment(tfirstTrainTime, "X").format("HH:mm");
+        var diffTime = (convertedCurrentTime - convertedFirstTime)/60;
+        
+        //Time apart
+        var tRemainder = diffTime % ttrainFrequency;
+
+        //Minutes until next train
+        var tMinutesAway = ttrainFrequency - tRemainder;
+        displayMinutesAway = Math.floor(tMinutesAway);
+        //Next train time
+        var nextTrainTime = moment().add(tMinutesAway, "minutes");
+        displayTime = moment(nextTrainTime).format("hh:mm A");
+
     }
 
 
